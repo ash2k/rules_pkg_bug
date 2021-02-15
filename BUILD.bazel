@@ -1,0 +1,25 @@
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+filegroup(
+    name = "files",
+    srcs = glob(
+        ["dir1/**"],
+        exclude_directories = 0,
+    ),
+    visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "broken_package",
+    srcs = [":files"],
+    visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "working_package",
+    srcs = glob(
+       ["dir1/**"],
+    ),
+    strip_prefix = "dir1",
+    visibility = ["//visibility:public"],
+)
